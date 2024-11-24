@@ -1,10 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity } from 'typeorm';
 import { User } from '../user.entity';
 
 @Entity({ name: 'customers' })
-export class Customer {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-  @Column(() => User)
-  user: User;
-}
+export class Customer extends User {}
