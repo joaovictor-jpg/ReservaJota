@@ -1,7 +1,9 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostgressConfigServer } from './config/postgress.config.server';
+import { PostgressConfigServer } from './config/postgres.config.server';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './module/user/user.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -12,6 +14,13 @@ import { ConfigModule } from '@nestjs/config';
       useClass: PostgressConfigServer,
       inject: [PostgressConfigServer],
     }),
+    UserModule,
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
   ],
 })
 export class AppModule {}
