@@ -3,12 +3,16 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Entity,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import { Role } from '../enum/role.enum';
+import { IsEnum } from 'class-validator';
+@Entity({ name: 'users' })
 @Unique(['email'])
-export abstract class User {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column({ type: 'varchar', name: 'name', length: 100, nullable: true })
@@ -23,6 +27,9 @@ export abstract class User {
   email: string;
   @Column({ type: 'varchar', name: 'telephone', length: 11, nullable: true })
   telephone: string;
+  @Column({ name: 'roles', enum: Role, nullable: false })
+  @IsEnum(Role)
+  role: Role;
   @Exclude()
   @Column({ type: 'varchar', name: 'password', length: 255, nullable: true })
   password: string;
